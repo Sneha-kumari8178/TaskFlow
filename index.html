@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TaskFlow - Modern Todo List</title>
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -480,6 +482,7 @@
             font-size: 3rem;
             margin-bottom: 15px;
             opacity: 0.5;
+            color: var(--primary-color);
         }
 
         .empty-state-text {
@@ -622,30 +625,46 @@
                         <option value="shopping">Shopping</option>
                         <option value="health">Health</option>
                     </select>
-                    <button class="add-btn" id="add-task-btn">Add Task</button>
+                    <button class="add-btn" id="add-task-btn">
+                        <i class="fas fa-plus"></i> Add Task
+                    </button>
                 </div>
             </section>
 
             <section class="filter-section">
                 <div class="filter-tabs">
-                    <div class="filter-tab active" data-filter="all">All <span class="badge" id="all-count">0</span></div>
-                    <div class="filter-tab" data-filter="active">Active <span class="badge" id="active-count">0</span></div>
-                    <div class="filter-tab" data-filter="completed">Completed <span class="badge" id="completed-count">0</span></div>
-                    <div class="filter-tab" data-filter="work">Work <span class="badge" id="work-count">0</span></div>
-                    <div class="filter-tab" data-filter="personal">Personal <span class="badge" id="personal-count">0</span></div>
+                    <div class="filter-tab active" data-filter="all">
+                        <i class="fas fa-list"></i> All <span class="badge" id="all-count">0</span>
+                    </div>
+                    <div class="filter-tab" data-filter="active">
+                        <i class="fas fa-clock"></i> Active <span class="badge" id="active-count">0</span>
+                    </div>
+                    <div class="filter-tab" data-filter="completed">
+                        <i class="fas fa-check-circle"></i> Completed <span class="badge" id="completed-count">0</span>
+                    </div>
+                    <div class="filter-tab" data-filter="work">
+                        <i class="fas fa-briefcase"></i> Work <span class="badge" id="work-count">0</span>
+                    </div>
+                    <div class="filter-tab" data-filter="personal">
+                        <i class="fas fa-user"></i> Personal <span class="badge" id="personal-count">0</span>
+                    </div>
                 </div>
             </section>
 
             <section class="tasks-container" id="tasks-container">
                 <div class="empty-state">
-                    <div class="empty-state-icon">📝</div>
+                    <div class="empty-state-icon">
+                        <i class="fas fa-clipboard-list"></i>
+                    </div>
                     <div class="empty-state-text">No tasks yet. Add one above to get started!</div>
                 </div>
             </section>
 
             <section class="progress-bar">
                 <div class="progress-header">
-                    <span class="progress-label">Daily Progress</span>
+                    <span class="progress-label">
+                        <i class="fas fa-chart-line"></i> Daily Progress
+                    </span>
                     <span class="progress-percentage" id="progress-text">0%</span>
                 </div>
                 <div class="progress-track">
@@ -783,8 +802,12 @@
             editForm.className = 'edit-form';
             editForm.innerHTML = `
                 <input type="text" class="edit-input" value="${task.text}" id="edit-input-${id}">
-                <button class="save-btn" id="save-btn-${id}">Save</button>
-                <button class="cancel-btn" id="cancel-btn-${id}">Cancel</button>
+                <button class="save-btn" id="save-btn-${id}">
+                    <i class="fas fa-save"></i> Save
+                </button>
+                <button class="cancel-btn" id="cancel-btn-${id}">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
             `;
             
             // Replace task content with edit form
@@ -848,7 +871,9 @@
             if (filteredTasks.length === 0) {
                 tasksContainer.innerHTML = `
                     <div class="empty-state">
-                        <div class="empty-state-icon">📝</div>
+                        <div class="empty-state-icon">
+                            <i class="fas fa-clipboard-list"></i>
+                        </div>
                         <div class="empty-state-text">No tasks found. ${
                             currentFilter === 'all' 
                                 ? 'Add one above to get started!' 
@@ -866,16 +891,35 @@
                     <div class="task-content">
                         <div class="task-text">${task.text}</div>
                         <div class="task-meta">
-                            <span class="task-category ${task.category}">${task.category}</span>
-                            <span class="task-date">${formatDate(task.date)}</span>
+                            <span class="task-category ${task.category}">
+                                <i class="fas ${getCategoryIcon(task.category)}"></i> ${task.category}
+                            </span>
+                            <span class="task-date">
+                                <i class="fas fa-calendar-alt"></i> ${formatDate(task.date)}
+                            </span>
                         </div>
                     </div>
                     <div class="task-actions">
-                        <button class="action-btn" onclick="editTask(${task.id})">✏️</button>
-                        <button class="action-btn delete" onclick="deleteTask(${task.id})">🗑️</button>
+                        <button class="action-btn" onclick="editTask(${task.id})">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="action-btn delete" onclick="deleteTask(${task.id})">
+                            <i class="fas fa-trash"></i>
+                        </button>
                     </div>
                 </div>
             `).join('');
+        }
+        
+        // Get icon for category
+        function getCategoryIcon(category) {
+            const icons = {
+                work: 'fa-briefcase',
+                personal: 'fa-user',
+                shopping: 'fa-shopping-cart',
+                health: 'fa-heartbeat'
+            };
+            return icons[category] || 'fa-tag';
         }
         
         // Update statistics
