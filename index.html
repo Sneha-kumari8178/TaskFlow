@@ -470,6 +470,56 @@
             animation: shimmer 2s infinite;
         }
 
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #718096;
+        }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        .empty-state-text {
+            font-size: 1.1rem;
+        }
+
+        .edit-input {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid var(--primary-color);
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            margin-right: 10px;
+        }
+
+        .save-btn, .cancel-btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .save-btn {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .cancel-btn {
+            background: #e2e8f0;
+            color: var(--dark-color);
+            margin-left: 5px;
+        }
+
+        .save-btn:hover, .cancel-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
         @keyframes slideDown {
             from {
                 opacity: 0;
@@ -545,149 +595,343 @@
         <main class="main-card">
             <section class="stats-container">
                 <div class="stat-card">
-                    <div class="stat-number">12</div>
+                    <div class="stat-number" id="total-tasks">0</div>
                     <div class="stat-label">Total Tasks</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number">8</div>
+                    <div class="stat-number" id="completed-tasks">0</div>
                     <div class="stat-label">Completed</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number">4</div>
+                    <div class="stat-number" id="pending-tasks">0</div>
                     <div class="stat-label">Pending</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number">65%</div>
+                    <div class="stat-number" id="progress-percentage">0%</div>
                     <div class="stat-label">Progress</div>
                 </div>
             </section>
 
             <section class="input-section">
                 <div class="input-group">
-                    <input type="text" class="task-input" placeholder="What needs to be done today?">
-                    <select class="category-select">
+                    <input type="text" class="task-input" id="task-input" placeholder="What needs to be done today?">
+                    <select class="category-select" id="category-select">
                         <option value="">Category</option>
                         <option value="work">Work</option>
                         <option value="personal">Personal</option>
                         <option value="shopping">Shopping</option>
                         <option value="health">Health</option>
                     </select>
-                    <button class="add-btn">Add Task</button>
+                    <button class="add-btn" id="add-task-btn">Add Task</button>
                 </div>
             </section>
 
             <section class="filter-section">
                 <div class="filter-tabs">
-                    <div class="filter-tab active">All <span class="badge">12</span></div>
-                    <div class="filter-tab">Active <span class="badge">4</span></div>
-                    <div class="filter-tab">Completed <span class="badge">8</span></div>
-                    <div class="filter-tab">Work <span class="badge">3</span></div>
-                    <div class="filter-tab">Personal <span class="badge">5</span></div>
+                    <div class="filter-tab active" data-filter="all">All <span class="badge" id="all-count">0</span></div>
+                    <div class="filter-tab" data-filter="active">Active <span class="badge" id="active-count">0</span></div>
+                    <div class="filter-tab" data-filter="completed">Completed <span class="badge" id="completed-count">0</span></div>
+                    <div class="filter-tab" data-filter="work">Work <span class="badge" id="work-count">0</span></div>
+                    <div class="filter-tab" data-filter="personal">Personal <span class="badge" id="personal-count">0</span></div>
                 </div>
             </section>
 
-            <section class="tasks-container">
-                <div class="task-item">
-                    <input type="checkbox" class="task-checkbox" checked>
-                    <div class="task-content">
-                        <div class="task-text">Complete project proposal</div>
-                        <div class="task-meta">
-                            <span class="task-category work">Work</span>
-                            <span class="task-date">Today, 2:00 PM</span>
-                        </div>
-                    </div>
-                    <div class="task-actions">
-                        <button class="action-btn">✏️</button>
-                        <button class="action-btn delete">🗑️</button>
-                    </div>
-                </div>
-
-                <div class="task-item">
-                    <input type="checkbox" class="task-checkbox">
-                    <div class="task-content">
-                        <div class="task-text">Morning workout - 30 minutes cardio</div>
-                        <div class="task-meta">
-                            <span class="task-category health">Health</span>
-                            <span class="task-date">Today, 7:00 AM</span>
-                        </div>
-                    </div>
-                    <div class="task-actions">
-                        <button class="action-btn">✏️</button>
-                        <button class="action-btn delete">🗑️</button>
-                    </div>
-                </div>
-
-                <div class="task-item">
-                    <input type="checkbox" class="task-checkbox" checked>
-                    <div class="task-content">
-                        <div class="task-text">Buy groceries for the week</div>
-                        <div class="task-meta">
-                            <span class="task-category shopping">Shopping</span>
-                            <span class="task-date">Yesterday</span>
-                        </div>
-                    </div>
-                    <div class="task-actions">
-                        <button class="action-btn">✏️</button>
-                        <button class="action-btn delete">🗑️</button>
-                    </div>
-                </div>
-
-                <div class="task-item">
-                    <input type="checkbox" class="task-checkbox">
-                    <div class="task-content">
-                        <div class="task-text">Call mom for her birthday</div>
-                        <div class="task-meta">
-                            <span class="task-category personal">Personal</span>
-                            <span class="task-date">Today, 6:00 PM</span>
-                        </div>
-                    </div>
-                    <div class="task-actions">
-                        <button class="action-btn">✏️</button>
-                        <button class="action-btn delete">🗑️</button>
-                    </div>
-                </div>
-
-                <div class="task-item">
-                    <input type="checkbox" class="task-checkbox" checked>
-                    <div class="task-content">
-                        <div class="task-text">Review quarterly reports</div>
-                        <div class="task-meta">
-                            <span class="task-category work">Work</span>
-                            <span class="task-date">Yesterday</span>
-                        </div>
-                    </div>
-                    <div class="task-actions">
-                        <button class="action-btn">✏️</button>
-                        <button class="action-btn delete">🗑️</button>
-                    </div>
-                </div>
-
-                <div class="task-item">
-                    <input type="checkbox" class="task-checkbox">
-                    <div class="task-content">
-                        <div class="task-text">Read 20 pages of current book</div>
-                        <div class="task-meta">
-                            <span class="task-category personal">Personal</span>
-                            <span class="task-date">Today, 9:00 PM</span>
-                        </div>
-                    </div>
-                    <div class="task-actions">
-                        <button class="action-btn">✏️</button>
-                        <button class="action-btn delete">🗑️</button>
-                    </div>
+            <section class="tasks-container" id="tasks-container">
+                <div class="empty-state">
+                    <div class="empty-state-icon">📝</div>
+                    <div class="empty-state-text">No tasks yet. Add one above to get started!</div>
                 </div>
             </section>
 
             <section class="progress-bar">
                 <div class="progress-header">
                     <span class="progress-label">Daily Progress</span>
-                    <span class="progress-percentage">65%</span>
+                    <span class="progress-percentage" id="progress-text">0%</span>
                 </div>
                 <div class="progress-track">
-                    <div class="progress-fill"></div>
+                    <div class="progress-fill" id="progress-fill"></div>
                 </div>
             </section>
         </main>
     </div>
+
+    <script>
+        // DOM Elements
+        const taskInput = document.getElementById('task-input');
+        const categorySelect = document.getElementById('category-select');
+        const addTaskBtn = document.getElementById('add-task-btn');
+        const tasksContainer = document.getElementById('tasks-container');
+        const filterTabs = document.querySelectorAll('.filter-tab');
+        
+        // Stats elements
+        const totalTasksEl = document.getElementById('total-tasks');
+        const completedTasksEl = document.getElementById('completed-tasks');
+        const pendingTasksEl = document.getElementById('pending-tasks');
+        const progressPercentageEl = document.getElementById('progress-percentage');
+        const progressTextEl = document.getElementById('progress-text');
+        const progressFillEl = document.getElementById('progress-fill');
+        
+        // Filter count elements
+        const allCountEl = document.getElementById('all-count');
+        const activeCountEl = document.getElementById('active-count');
+        const completedCountEl = document.getElementById('completed-count');
+        const workCountEl = document.getElementById('work-count');
+        const personalCountEl = document.getElementById('personal-count');
+        
+        // State
+        let tasks = [];
+        let currentFilter = 'all';
+        
+        // Initialize app
+        function init() {
+            loadTasksFromStorage();
+            renderTasks();
+            updateStats();
+            updateFilterCounts();
+            
+            // Event listeners
+            addTaskBtn.addEventListener('click', addTask);
+            taskInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') addTask();
+            });
+            
+            filterTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    filterTabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    currentFilter = tab.dataset.filter;
+                    renderTasks();
+                });
+            });
+        }
+        
+        // Load tasks from localStorage
+        function loadTasksFromStorage() {
+            const storedTasks = localStorage.getItem('tasks');
+            if (storedTasks) {
+                tasks = JSON.parse(storedTasks);
+            } else {
+                // Add some default tasks for demo
+                tasks = [
+                    {
+                        id: Date.now(),
+                        text: 'Complete project proposal',
+                        category: 'work',
+                        completed: false,
+                        date: new Date().toISOString()
+                    },
+                    {
+                        id: Date.now() + 1,
+                        text: 'Morning workout - 30 minutes cardio',
+                        category: 'health',
+                        completed: false,
+                        date: new Date().toISOString()
+                    },
+                    {
+                        id: Date.now() + 2,
+                        text: 'Buy groceries for the week',
+                        category: 'shopping',
+                        completed: true,
+                        date: new Date(Date.now() - 86400000).toISOString()
+                    }
+                ];
+                saveTasksToStorage();
+            }
+        }
+        
+        // Save tasks to localStorage
+        function saveTasksToStorage() {
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+        }
+        
+        // Add a new task
+        function addTask() {
+            const text = taskInput.value.trim();
+            const category = categorySelect.value || 'personal';
+            
+            if (!text) return;
+            
+            const newTask = {
+                id: Date.now(),
+                text,
+                category,
+                completed: false,
+                date: new Date().toISOString()
+            };
+            
+            tasks.unshift(newTask);
+            saveTasksToStorage();
+            renderTasks();
+            updateStats();
+            updateFilterCounts();
+            
+            // Reset input
+            taskInput.value = '';
+            categorySelect.value = '';
+        }
+        
+        // Toggle task completion
+        function toggleTask(id) {
+            const task = tasks.find(t => t.id === id);
+            if (task) {
+                task.completed = !task.completed;
+                saveTasksToStorage();
+                renderTasks();
+                updateStats();
+                updateFilterCounts();
+            }
+        }
+        
+        // Delete a task
+        function deleteTask(id) {
+            tasks = tasks.filter(t => t.id !== id);
+            saveTasksToStorage();
+            renderTasks();
+            updateStats();
+            updateFilterCounts();
+        }
+        
+        // Edit a task
+        function editTask(id) {
+            const taskElement = document.querySelector(`[data-task-id="${id}"]`);
+            const task = tasks.find(t => t.id === id);
+            
+            if (!taskElement || !task) return;
+            
+            const taskContent = taskElement.querySelector('.task-content');
+            
+            // Create edit form
+            const editForm = document.createElement('div');
+            editForm.className = 'edit-form';
+            editForm.innerHTML = `
+                <input type="text" class="edit-input" value="${task.text}" id="edit-input-${id}">
+                <button class="save-btn" id="save-btn-${id}">Save</button>
+                <button class="cancel-btn" id="cancel-btn-${id}">Cancel</button>
+            `;
+            
+            // Replace task content with edit form
+            taskContent.innerHTML = '';
+            taskContent.appendChild(editForm);
+            
+            // Focus on input
+            document.getElementById(`edit-input-${id}`).focus();
+            
+            // Event listeners for save and cancel
+            document.getElementById(`save-btn-${id}`).addEventListener('click', () => {
+                const newText = document.getElementById(`edit-input-${id}`).value.trim();
+                if (newText) {
+                    task.text = newText;
+                    saveTasksToStorage();
+                    renderTasks();
+                }
+            });
+            
+            document.getElementById(`cancel-btn-${id}`).addEventListener('click', () => {
+                renderTasks();
+            });
+            
+            // Handle Enter key in edit input
+            document.getElementById(`edit-input-${id}`).addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    document.getElementById(`save-btn-${id}`).click();
+                }
+            });
+        }
+        
+        // Format date for display
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const today = new Date();
+            const yesterday = new Date(today);
+            yesterday.setDate(yesterday.getDate() - 1);
+            
+            if (date.toDateString() === today.toDateString()) {
+                return `Today, ${date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}`;
+            } else if (date.toDateString() === yesterday.toDateString()) {
+                return 'Yesterday';
+            } else {
+                return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+            }
+        }
+        
+        // Filter tasks based on current filter
+        function getFilteredTasks() {
+            if (currentFilter === 'all') return tasks;
+            if (currentFilter === 'active') return tasks.filter(t => !t.completed);
+            if (currentFilter === 'completed') return tasks.filter(t => t.completed);
+            
+            return tasks.filter(t => t.category === currentFilter);
+        }
+        
+        // Render tasks to the DOM
+        function renderTasks() {
+            const filteredTasks = getFilteredTasks();
+            
+            if (filteredTasks.length === 0) {
+                tasksContainer.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📝</div>
+                        <div class="empty-state-text">No tasks found. ${
+                            currentFilter === 'all' 
+                                ? 'Add one above to get started!' 
+                                : 'Try changing the filter or add a new task.'
+                        }</div>
+                    </div>
+                `;
+                return;
+            }
+            
+            tasksContainer.innerHTML = filteredTasks.map(task => `
+                <div class="task-item" data-task-id="${task.id}">
+                    <input type="checkbox" class="task-checkbox" ${task.completed ? 'checked' : ''} 
+                           onchange="toggleTask(${task.id})">
+                    <div class="task-content">
+                        <div class="task-text">${task.text}</div>
+                        <div class="task-meta">
+                            <span class="task-category ${task.category}">${task.category}</span>
+                            <span class="task-date">${formatDate(task.date)}</span>
+                        </div>
+                    </div>
+                    <div class="task-actions">
+                        <button class="action-btn" onclick="editTask(${task.id})">✏️</button>
+                        <button class="action-btn delete" onclick="deleteTask(${task.id})">🗑️</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Update statistics
+        function updateStats() {
+            const total = tasks.length;
+            const completed = tasks.filter(t => t.completed).length;
+            const pending = total - completed;
+            const percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
+            
+            totalTasksEl.textContent = total;
+            completedTasksEl.textContent = completed;
+            pendingTasksEl.textContent = pending;
+            progressPercentageEl.textContent = `${percentage}%`;
+            progressTextEl.textContent = `${percentage}%`;
+            progressFillEl.style.width = `${percentage}%`;
+        }
+        
+        // Update filter counts
+        function updateFilterCounts() {
+            const allCount = tasks.length;
+            const activeCount = tasks.filter(t => !t.completed).length;
+            const completedCount = tasks.filter(t => t.completed).length;
+            const workCount = tasks.filter(t => t.category === 'work').length;
+            const personalCount = tasks.filter(t => t.category === 'personal').length;
+            
+            allCountEl.textContent = allCount;
+            activeCountEl.textContent = activeCount;
+            completedCountEl.textContent = completedCount;
+            workCountEl.textContent = workCount;
+            personalCountEl.textContent = personalCount;
+        }
+        
+        // Initialize the app
+        init();
+    </script>
 </body>
 </html>
