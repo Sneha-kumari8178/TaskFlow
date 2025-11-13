@@ -453,7 +453,7 @@
             height: 100%;
             background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
             border-radius: 10px;
-            width: 65%;
+            width: 0%;
             transition: width 0.5s ease;
             position: relative;
             overflow: hidden;
@@ -711,30 +711,8 @@
             if (storedTasks) {
                 tasks = JSON.parse(storedTasks);
             } else {
-                // Add some default tasks for demo
-                tasks = [
-                    {
-                        id: Date.now(),
-                        text: 'Complete project proposal',
-                        category: 'work',
-                        completed: false,
-                        date: new Date().toISOString()
-                    },
-                    {
-                        id: Date.now() + 1,
-                        text: 'Morning workout - 30 minutes cardio',
-                        category: 'health',
-                        completed: false,
-                        date: new Date().toISOString()
-                    },
-                    {
-                        id: Date.now() + 2,
-                        text: 'Buy groceries for the week',
-                        category: 'shopping',
-                        completed: true,
-                        date: new Date(Date.now() - 86400000).toISOString()
-                    }
-                ];
+                // Start with empty array - no default tasks
+                tasks = [];
                 saveTasksToStorage();
             }
         }
